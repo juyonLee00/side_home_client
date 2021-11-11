@@ -5,9 +5,7 @@ import { AiFillStar } from 'react-icons/ai';
 // recoil
 import { useRecoilState } from 'recoil';
 import { PickPerfume } from '../../../src/states/archive';
-import { RiMenuAddFill } from 'react-icons/ri';
 import { perfumeData, ShowDetailPerfuem } from '../../../src/states/archive';
-import { BsArrowUpDown } from 'react-icons/bs';
 const MyPageMain = ({ setPageNum }) => {
   const [searchData, setSearchData] = useState([]);
   const [data, setData] = useState([]);
@@ -16,27 +14,9 @@ const MyPageMain = ({ setPageNum }) => {
   const [pickItem, setPickItem] = useRecoilState(PickPerfume);
   const [showItem, setShowItem] = useRecoilState(ShowDetailPerfuem);
 
-  const handlePicker = () => {
-    setOpenPicker(!openPicker);
-    console.log(openPicker);
-  };
   useEffect(() => {
     setData(() => perfumeData.filter((obj, idx) => pickItem.includes(obj.id)));
   }, []);
-
-  const onSearch = (e) => {
-    console.log(e.target.value);
-    const keyword = e.target.value;
-    const upperKeyword = keyword.toString().toUpperCase();
-    const nextResult = data.filter(
-      (item) =>
-        item.brand.toString().toUpperCase().includes(upperKeyword) ||
-        item.name.toString().toUpperCase().includes(upperKeyword) ||
-        item.type.toString().toUpperCase().includes(upperKeyword)
-    );
-    setSearchData(nextResult);
-    console.log(nextResult);
-  };
 
   return (
     <>
@@ -55,49 +35,6 @@ const MyPageMain = ({ setPageNum }) => {
 
 export default MyPageMain;
 
-const InputBox = styled.input`
-  width: 95%;
-  height: 2rem;
-  vertical-align: center;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-`;
-const BtnContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-between;
-`;
-
-const Btn = styled.div`
-  margin-left: 0.2rem;
-  font-size: 0.8rem;
-  height: 1.5rem;
-
-  box-shadow: ${(props) =>
-    props.isShow ? '0 -0.5rem 1rem 0.2rem rgba(0, 0, 0, 0.3)' : 'none'};
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: center;
-  color: #191919;
-`;
-const FilterIcon = styled(RiMenuAddFill)`
-  width: 1.15rem;
-  height: 1.15rem;
-  color: gray;
-  text-shadow: 0 0 1rem black;
-`;
-
-const UpdownIcon = styled(BsArrowUpDown)`
-  width: 1.15rem;
-  height: 1.15rem;
-  color: gray;
-  text-shadow: 0 0 1rem black;
-`;
-
 export const Perfume = ({
   data,
   setPageNum,
@@ -107,13 +44,9 @@ export const Perfume = ({
 }) => {
   const handleOnPick = (id) => {
     if (pickItem.includes(id)) {
-      console.log(id);
       setPickItem(pickItem.filter((item) => item !== id));
     } else setPickItem(pickItem.concat(id));
   };
-  useEffect(() => {
-    console.log(pickItem);
-  }, [pickItem]);
 
   return (
     <>
@@ -205,30 +138,6 @@ const Image = styled.img`
   background-color: gray;
 `;
 
-const Picture = styled.div`
-  width: 14rem;
-  height: 14rem;
-  margin-right: 1.2rem;
-  border: solid 0.1rem ${({ theme }) => theme.colors.gray_1};
-  border-radius: 0.8rem;
-  background: url(${(props) => props.src}) center center / cover;
-`;
-
-const DelIcon = styled.img`
-  position: relative;
-  top: 0rem;
-  left: 78%;
-
-  width: 3rem;
-  height: 3rem;
-`;
-const CtgCntnr = styled.div`
-  width: 100%;
-  margin-bottom: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
 const Text = styled.div`
   width: 8rem;
   text-align: left;
@@ -252,9 +161,7 @@ const PerfumeList = styled.div`
   justify-content: center;
   column-gap: 0.5rem;
 `;
-const Wrapper = styled.div`
-  height: 2rem;
-`;
+
 const GoodsCntnr = styled.div`
   margin-bottom: 1.5rem;
   display: flex;
@@ -279,24 +186,4 @@ const StarIcon = styled(AiFillStar)`
   text-shadow: 0 0 1rem black;
   stroke: ${(props) => (props.isPick ? 'none' : 'black')};
   stroke-width: 2.5rem;
-`;
-const CartBtn = styled.img`
-  position: relative;
-  z-index: 2;
-  top: -4rem;
-  left: 11.2rem;
-
-  width: 3rem;
-  height: 3rem;
-  border-radius: 1.5rem;
-  stroke: black;
-  stroek-width: 1rem;
-`;
-
-const Line = styled.div`
-  margin-top: 1rem;
-  border-bottom: ${(props) =>
-    props.isLast ? 'none' : props.isTwo ? 'none' : '1rem solid  #F4F4F4'};
-  width: 110%;
-  margin-left: -5%;
 `;

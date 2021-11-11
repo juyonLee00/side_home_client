@@ -1,9 +1,7 @@
 import { width } from 'dom-helpers';
 import React, { useEffect, useState } from 'react';
-import Select, { Component } from 'react-select';
 import makeAnimated from 'react-select/animated';
 import styled from 'styled-components';
-import Navi from '../common/Navi';
 const animatedComponents = makeAnimated();
 const typeOptions = [
   { value: 1, label: 'Musk' },
@@ -46,9 +44,7 @@ const Picker = () => {
     name: '',
   });
   const [filterType, setFilterType] = useState(0);
-  useEffect(() => {
-    console.log(noteFilter);
-  }, [noteFilter, setNoteFilter]);
+  useEffect(() => {}, [noteFilter, setNoteFilter]);
 
   return (
     <div
@@ -166,12 +162,7 @@ const BtnCntr = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 `;
-const PickerCntr = styled.div`
-  width: 100%;
-  display: flex;
-  flexdirection: row;
-  justifycontent: space-between;
-`;
+
 const Btn = styled.div`
   margin-bottom: 0.8rem;
   width: 90%;
@@ -185,11 +176,6 @@ const Btn = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 0.8rem;
-`;
-
-const CustomBtn = styled.div`
-  box-shadow: ${(props) =>
-    props.isShow ? '0 -0.5rem 1rem 0.2rem rgba(0, 0, 0, 0.3)' : 'none'};
 `;
 
 const Menu = styled.div`

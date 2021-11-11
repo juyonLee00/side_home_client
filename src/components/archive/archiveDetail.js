@@ -9,12 +9,8 @@ const ArchiveDetail = () => {
   const [showItem, setShowItem] = useRecoilState(ShowDetailPerfuem);
   const [pickItem, setPickItem] = useRecoilState(PickPerfume);
 
-  useEffect(() => {
-    console.log(showItem);
-  });
   const handleOnPick = (id) => {
     if (pickItem.includes(id)) {
-      console.log(id);
       setPickItem(pickItem.filter((item) => item !== id));
     } else setPickItem(pickItem.concat(id));
   };

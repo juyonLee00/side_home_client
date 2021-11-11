@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
-import { useState } from 'react';
 import ArchiveDetail from '../components/archive/archiveDetail';
 import ArchivePage from '../components/archive/archivePage';
 import styled from 'styled-components';
-import { AiFillHeart } from 'react-icons/ai';
 import FavoritePerfume from '../components/archive/favoritePerfume';
 import Navi from '../components/common/Navi';
 import { useRecoilState } from 'recoil';
@@ -56,15 +54,7 @@ const Archive = ({ history }) => {
 };
 
 export default Archive;
-const Container = styled.div`
-  width: 100%;
-  margin-top: 8.6rem;
-  padding: 4rem 2.4rem;
-  padding-bottom: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+
 const Cntr = styled.div`
   width: 100%;
   margin-top: 8.5rem;
