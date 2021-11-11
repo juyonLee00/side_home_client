@@ -1,5 +1,7 @@
 import React from 'react';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
+import Weather from './Weather.js';
 
 const today_scent = ({ history }) => {
   return (
@@ -12,12 +14,15 @@ const today_scent = ({ history }) => {
         }}
       >
         <Wrapper>
-          <MainTitle>오늘 </MainTitle>
-          <Weather></Weather>
+          <MainTitle>
+            오늘
+            <Weather />
+          </MainTitle>
           <RecommandWrap>
             <RecommandImg></RecommandImg>
             <RecommandGrid>
               <RecommandName>향수명</RecommandName>
+
               <RecommandWeather>추천날씨</RecommandWeather>
 
               <LikeButton></LikeButton>
@@ -87,7 +92,7 @@ const MainTitle = styled.h1`
   color: #2d2d2d;
 `;
 
-const Weather = styled.h2`
+const WeatherRendering = styled.h2`
   position: relative;
   margin-top: 1px;
   font-family: 'GmarketSansMedium';
