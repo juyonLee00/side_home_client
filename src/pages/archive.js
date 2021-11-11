@@ -16,7 +16,7 @@ const Archive = ({ history }) => {
           <Navi
             text="전체 향수"
             onMain={() => setPageNum(1)}
-            onBackClick={() => history.push('./')}
+            onBackClick={() => history.push('./today')}
             onPickPerfume={() => setPageNum(3)}
           ></Navi>
           <Cntr>
@@ -30,7 +30,7 @@ const Archive = ({ history }) => {
           <Navi
             text="전체 향수"
             onMain={() => setPageNum(1)}
-            onBackClick={() => setPageNum(1)}
+            onBackClick={() => history.push('./today')}
             onPickPerfume={() => setPageNum(3)}
           ></Navi>
           <ArchiveDetail setPageNum={setPageNum} />
@@ -42,7 +42,7 @@ const Archive = ({ history }) => {
           <Navi
             text="전체 향수"
             onMain={() => setPageNum(1)}
-            onBackClick={() => setPageNum(1)}
+            onBackClick={() => history.push('./today')}
             onPickPerfume={() => setPageNum(3)}
           ></Navi>
           <FavoritePerfume setPageNum={setPageNum} />
