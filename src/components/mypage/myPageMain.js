@@ -1,0 +1,302 @@
+import React, { useEffect, useState } from 'react';
+import styled, { css } from 'styled-components';
+// icon
+import { AiFillStar } from 'react-icons/ai';
+// recoil
+import { useRecoilState } from 'recoil';
+import { PickPerfume } from '../../../src/states/archive';
+import { RiMenuAddFill } from 'react-icons/ri';
+import { perfumeData, ShowDetailPerfuem } from '../../../src/states/archive';
+import { BsArrowUpDown } from 'react-icons/bs';
+const MyPageMain = ({ setPageNum }) => {
+  const [searchData, setSearchData] = useState([]);
+  const [data, setData] = useState([]);
+  const [filterData, setFilterData] = useState('');
+  const [openPicker, setOpenPicker] = useState(false);
+  const [pickItem, setPickItem] = useRecoilState(PickPerfume);
+  const [showItem, setShowItem] = useRecoilState(ShowDetailPerfuem);
+
+  const handlePicker = () => {
+    setOpenPicker(!openPicker);
+    console.log(openPicker);
+  };
+  useEffect(() => {
+    setData(() => perfumeData.filter((obj, idx) => pickItem.includes(obj.id)));
+  }, []);
+
+  const onSearch = (e) => {
+    console.log(e.target.value);
+    const keyword = e.target.value;
+    const upperKeyword = keyword.toString().toUpperCase();
+    const nextResult = data.filter(
+      (item) =>
+        item.brand.toString().toUpperCase().includes(upperKeyword) ||
+        item.name.toString().toUpperCase().includes(upperKeyword) ||
+        item.type.toString().toUpperCase().includes(upperKeyword)
+    );
+    setSearchData(nextResult);
+    console.log(nextResult);
+  };
+
+  return (
+    <>
+      <Container>
+        <Perfume
+          data={searchData.length === 0 ? data : searchData}
+          setPageNum={setPageNum}
+          pickItem={pickItem}
+          setPickItem={setPickItem}
+          setShowItem={setShowItem}
+        />
+      </Container>
+    </>
+  );
+};
+
+export default MyPageMain;
+
+const InputBox = styled.input`
+  width: 95%;
+  height: 2rem;
+  vertical-align: center;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+`;
+const BtnContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+`;
+
+const Btn = styled.div`
+  margin-left: 0.2rem;
+  font-size: 0.8rem;
+  height: 1.5rem;
+
+  box-shadow: ${(props) =>
+    props.isShow ? '0 -0.5rem 1rem 0.2rem rgba(0, 0, 0, 0.3)' : 'none'};
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: center;
+  color: #191919;
+`;
+const FilterIcon = styled(RiMenuAddFill)`
+  width: 1.15rem;
+  height: 1.15rem;
+  color: gray;
+  text-shadow: 0 0 1rem black;
+`;
+
+const UpdownIcon = styled(BsArrowUpDown)`
+  width: 1.15rem;
+  height: 1.15rem;
+  color: gray;
+  text-shadow: 0 0 1rem black;
+`;
+
+export const Perfume = ({
+  data,
+  setPageNum,
+  pickItem,
+  setPickItem,
+  setShowItem,
+}) => {
+  const handleOnPick = (id) => {
+    if (pickItem.includes(id)) {
+      console.log(id);
+      setPickItem(pickItem.filter((item) => item !== id));
+    } else setPickItem(pickItem.concat(id));
+  };
+  useEffect(() => {
+    console.log(pickItem);
+  }, [pickItem]);
+
+  return (
+    <>
+      <PerfumeCntr>
+        <PerfumeList>
+          {data.map((item, idx) => {
+            return (
+              <>
+                <GoodsCntnr key={idx}>
+                  <div
+                    style={{
+                      width: '9rem',
+                      height: '10rem',
+                      textAlign: 'center',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <IconCntr>
+                      <StarIcon
+                        size={'1.5rem'}
+                        onClick={() => handleOnPick(item.id)}
+                        isPick={pickItem && pickItem.includes(item.id)}
+                      />
+                    </IconCntr>
+                    <Image
+                      key={idx}
+                      className="goods_img"
+                      id={idx}
+                      src={item.url}
+                      // priority={true}
+                      // loading="eager"
+                      loading="lazy"
+                      style={{ width: '7rem', height: '8rem' }}
+                      backgroundColor="red"
+                      onClick={() => {
+                        setShowItem(item);
+                        setPageNum(2);
+                      }}
+                      onContextMenu={() => {
+                        return false;
+                      }}
+                      onDragStart={() => {
+                        return false;
+                      }}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      width: '7rem',
+                      height: '4rem',
+                      textAlign: 'center',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Text style={{ marginBottom: '0.2rem' }}>{item.name}</Text>
+                    <Text isGray={true} style={{ fontWeight: '400' }}>
+                      {item.brand}
+                    </Text>
+                    <Text isGray={true}>{item.type}</Text>
+                  </div>
+                </GoodsCntnr>
+              </>
+            );
+          })}
+        </PerfumeList>
+      </PerfumeCntr>
+    </>
+  );
+};
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+`;
+
+const PerfumeCntr = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+`;
+const Image = styled.img`
+  background-color: gray;
+`;
+
+const Picture = styled.div`
+  width: 14rem;
+  height: 14rem;
+  margin-right: 1.2rem;
+  border: solid 0.1rem ${({ theme }) => theme.colors.gray_1};
+  border-radius: 0.8rem;
+  background: url(${(props) => props.src}) center center / cover;
+`;
+
+const DelIcon = styled.img`
+  position: relative;
+  top: 0rem;
+  left: 78%;
+
+  width: 3rem;
+  height: 3rem;
+`;
+const CtgCntnr = styled.div`
+  width: 100%;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+const Text = styled.div`
+  width: 8rem;
+  text-align: left;
+  margin-left: 1.2rem;
+  font-family: Roboto;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: -0.035rem;
+  color: ${(props) => (props.isGray ? 'gray' : 'black')};
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+`;
+
+const PerfumeList = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  column-gap: 0.5rem;
+`;
+const Wrapper = styled.div`
+  height: 2rem;
+`;
+const GoodsCntnr = styled.div`
+  margin-bottom: 1.5rem;
+  display: flex;
+  background-color: #dedede;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+const IconCntr = styled.div`
+  z-index: 1;
+  hieght: 1.5rem;
+  text-align: right;
+  vertical-align: flex-end;
+  position: relative;
+  display: flex;
+  flex: 1;
+  width: 100%;
+`;
+const StarIcon = styled(AiFillStar)`
+  position: relative;
+  right: -83%;
+  color: ${(props) => (props.isPick ? 'yellow' : 'white')};
+  text-shadow: 0 0 1rem black;
+  stroke: ${(props) => (props.isPick ? 'none' : 'black')};
+  stroke-width: 2.5rem;
+`;
+const CartBtn = styled.img`
+  position: relative;
+  z-index: 2;
+  top: -4rem;
+  left: 11.2rem;
+
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1.5rem;
+  stroke: black;
+  stroek-width: 1rem;
+`;
+
+const Line = styled.div`
+  margin-top: 1rem;
+  border-bottom: ${(props) =>
+    props.isLast ? 'none' : props.isTwo ? 'none' : '1rem solid  #F4F4F4'};
+  width: 110%;
+  margin-left: -5%;
+`;
