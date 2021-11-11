@@ -8,7 +8,7 @@ import { BsFillPersonFill } from 'react-icons/bs';
 import { AiFillControl } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
 import { PageState } from '../../states/archive';
-
+import { Link } from 'react-router-dom';
 const Navi = ({ text, onMain, onBackClick, onPickPerfume }) => {
   const [pageNum, setPageNum] = useRecoilState(PageState);
 
@@ -22,18 +22,20 @@ const Navi = ({ text, onMain, onBackClick, onPickPerfume }) => {
           />
         </Logo>
         <Icons>
-          <BsFillPersonFill
-            style={{
-              width: '1.9rem',
-              height: '1.9rem',
-              stroke: '#525252',
-              strokeWidth: '0.08rem',
-              color: 'white',
-            }}
-          />
+          <Link to="/mypage">
+            <BsFillPersonFill
+              style={{
+                width: '1.9rem',
+                height: '1.9rem',
+                stroke: '#525252',
+                strokeWidth: '0.08rem',
+                color: 'white',
+              }}
+            />
+          </Link>
           <AiOutlineSearch
-            style={{ width: '2.2rem', height: '2.2rem', color: '#525252' }}
-          />
+            style={{ width: '2rem', height: '2rem', color: '#525252' }}
+          ></AiOutlineSearch>
         </Icons>
       </Headers>
       <Menu>
